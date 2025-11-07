@@ -4,6 +4,7 @@ import com.chiho.archBI.common.BaseResponse;
 import com.chiho.archBI.common.ErrorCode;
 import com.chiho.archBI.common.ResultUtils;
 import com.chiho.archBI.exception.BusinessException;
+import com.chiho.archBI.model.dto.file.UploadFileRequest;
 import com.chiho.archBI.service.FileService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -12,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.util.UUID;
 
@@ -23,9 +25,20 @@ public class FileController {
     @Autowired
     private FileService fileService;
 
+    /**
+     *
+     * @param file http传输的多部分文件流
+     *             其中@RequestPart("file") 用于处理multipart/form-data类型的请求，
+     *             核心作用是从多部份的请求中提取指定名称的部分，然后绑定到方法参数上
+     * @param uploadFileRequest 文件上传请求DTO
+     * @param httpServletRequest 封装HTTP请求信息的核心接口，提供一系列工具获取http请求中的数据
+     * @return 返回上传成功的文件路径
+     */
     @PostMapping("/upload")
     @ApiOperation("文件上传")
-    public BaseResponse<String> upload(MultipartFile file) {
+    public BaseResponse<String> upload(@RequestPart("file") MultipartFile file,
+                                       UploadFileRequest uploadFileRequest,
+                                       HttpServletRequest httpServletRequest) {
         log.info("文件上传：{}", file);
         try {
             //原始文件名
@@ -43,6 +56,7 @@ public class FileController {
                 prefix = originalFileName.substring(0, originalFileName.lastIndexOf("."));
             }
             String filePath = fileService.uploadImgFile(prefix, objectName, file.getInputStream());
+            // 上传成功
             return ResultUtils.success(filePath);
 
         } catch (IOException e) {

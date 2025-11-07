@@ -1,14 +1,15 @@
 package com.chiho.archBI.model.dto.chart;
 
 import lombok.Data;
+
 import java.io.Serializable;
 
 /**
- * 创建请求
- *
+ * AI图表上传分析请求
+ * 用户上传文件时，给ai的辅助分析信息
  */
 @Data
-public class ChartAddRequest implements Serializable {
+public class GenChartByAiRequest implements Serializable {
 
     /**
      * 图表名称
@@ -21,12 +22,7 @@ public class ChartAddRequest implements Serializable {
     private String goal;
 
     /**
-     * 图表数据
-     */
-    private String chartData;
-
-    /**
-     * 图表类型
+     * 图标类型
      */
     private String chartType;
 

@@ -19,7 +19,7 @@ spring:
   # todo 需替换配置
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/dojianbi
+    url: jdbc:mysql://localhost:3309/dojianbi
     username: root
     password: root_oshigo
   # Redis 配置

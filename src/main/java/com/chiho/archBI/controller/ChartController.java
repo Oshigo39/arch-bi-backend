@@ -99,9 +99,15 @@ public class ChartController {
         // 如果名称不为空，并且名称长度大于100，抛出异常
         ThrowUtils.throwIf(StringUtils.isNotBlank(name) && name.length() > 100, ErrorCode.PARAMS_ERROR,"名称过长");
 
+        // 用户输入
+        StringBuilder userInput = new StringBuilder();
+        userInput.append("你是一个数据分析师，接下来我会给你我的分析目标和原始数据，请给我分析结论。").append("\n");
+        userInput.append("分析目标：").append(goal).append("\n");
+
         // xlsx转换成csv
         String result = ExcelUtils.excelToCSV(multipartFile);
-        return ResultUtils.success(result);
+        userInput.append("数据：").append(result).append("\n");
+        return ResultUtils.success(userInput.toString());
 
 //        User loginUser = userService.getLoginUser(request);
 //        // 生成8个字母的字符串，作为UUID
